@@ -49,6 +49,7 @@ head(toc)
 
 file.exists("LA_Times_Neighborhoods.shp")
 neighborhood <- readOGR(dsn = "~/Documents/Abundant Housing LA/1906xx - TOC/LA_Times_Neighborhoods", layer = "LA_Times_Neighborhoods") # you'll need to change this
+#you will have to save the 6 LA_Times_Neighborhoods files to a folder called "LA_Times_Neighborhoods" in your working directory
 head(neighborhood)
 class(neighborhood)
 nh_df <- broom::tidy(neighborhood, region = "name") # turn into a dataframe
@@ -64,7 +65,7 @@ head(nh_names)
 #set_key("AIzaSyDML4DP3Z-675erwTe9cxTg3TD5SYwj7rg", api = "map")
 #set_key("AIzaSyDML4DP3Z-675erwTe9cxTg3TD5SYwj7rg", api = "default")
 #google_keys() # check to see which API keys are active
-register_google(key = "xxx") # get a Google Map API key please :)
+register_google(key = "xxx") # get a Google Map API key please :) or find an open-source map
 
 la_map <- get_map(location = c(lon=-118.35, lat=34.1),  maptype = "roadmap", source = "google", zoom = 11) # map of los angeles
 ggmap(la_map)
