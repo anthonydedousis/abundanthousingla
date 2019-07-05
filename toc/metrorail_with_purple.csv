@@ -1,0 +1,107 @@
+station,lat,long,in LA?,expo,blue,gold,green,red,purple,crenshaw,regional,line
+Downtown Santa Monica,34.0138,-118.4921,No,Yes,No,No,No,No,No,No,No,expo
+17th St-SMC,34.0237,-118.4797,No,Yes,No,No,No,No,No,No,No,expo
+26th St-Bergamot,34.0279,-118.4699,No,Yes,No,No,No,No,No,No,No,expo
+Expo-Bundy,34.0316,-118.4528,Yes,Yes,No,No,No,No,No,No,No,expo
+Expo-Sepulveda,34.0353,-118.4344,Yes,Yes,No,No,No,No,No,No,No,expo
+Rancho Park,34.0368,-118.4258,Yes,Yes,No,No,No,No,No,No,No,expo
+Palms,34.0291,-118.4036,Yes,Yes,No,No,No,No,No,No,No,expo
+Culver City,34.0282,-118.3883,Yes,Yes,No,No,No,No,No,No,No,expo
+La Cienega-Jefferson,34.0260,-118.3721,Yes,Yes,No,No,No,No,No,No,No,expo
+Expo-La Brea,34.0248,-118.3552,Yes,Yes,No,No,No,No,No,No,No,expo
+Farmdale,34.024,-118.346,Yes,Yes,No,No,No,No,No,No,No,expo
+Expo-Crenshaw,34.0225,-118.335,Yes,Yes,No,No,No,No,No,Yes,No,expocrenshaw
+MLK,34.0096,-118.3353,Yes,No,No,No,No,No,No,Yes,No,crenshaw
+Leimert Park,34.0040,-118.3322,Yes,No,No,No,No,No,No,Yes,No,crenshaw
+Hyde Park,33.9879,-118.3308,Yes,No,No,No,No,No,No,Yes,No,crenshaw
+Fairview Heights,33.9753,-118.3360,No,No,No,No,No,No,No,Yes,No,crenshaw
+Downtown Inglewood,33.9670,-118.3514,No,No,No,No,No,No,No,Yes,No,crenshaw
+Westchester-Veterans,33.9620,-118.3744,No,No,No,No,No,No,No,Yes,No,crenshaw
+Aviation-96th,33.9509,-118.3785,Yes,No,No,No,No,No,No,Yes,No,crenshaw
+Aviation-Century,33.9456,-118.3786,Yes,No,No,No,No,No,No,Yes,No,crenshaw
+Expo-Western,34.0182,-118.3089,Yes,Yes,No,No,No,No,No,No,No,expo
+Expo-Vermont,34.0182,-118.2916,Yes,Yes,No,No,No,No,No,No,No,expo
+Expo Park-USC,34.0182,-118.2866,Yes,Yes,No,No,No,No,No,No,No,expo
+Jefferson-USC,34.0214,-118.2787,Yes,Yes,No,No,No,No,No,No,No,expo
+LATTC,34.0302,-118.273,Yes,Yes,No,No,No,No,No,No,No,expo
+Pico,34.0402,-118.2667,Yes,Yes,Yes,No,No,No,No,No,No,expoblue
+North Hollywood,34.1688,-118.3766,Yes,No,No,No,No,Yes,No,No,No,red
+Universal City,34.1391,-118.3625,Yes,No,No,No,No,Yes,No,No,No,red
+Hollywood-Highland,34.1016,-118.3386,Yes,No,No,No,No,Yes,No,No,No,red
+Hollywood-Vine,34.101667,-118.326944,Yes,No,No,No,No,Yes,No,No,No,red
+Hollywood-Western,34.1015,-118.3092,Yes,No,No,No,No,Yes,No,No,No,red
+Vermont-Sunset,34.0983,-118.2917,Yes,No,No,No,No,Yes,No,No,No,red
+Vermont-Santa Monica,34.0903,-118.2919,Yes,No,No,No,No,Yes,No,No,No,red
+Vermont-Beverly,34.0764,-118.2917,Yes,No,No,No,No,Yes,No,No,No,red
+Wilshire-Western,34.0617,-118.3091,Yes,No,No,No,No,No,Yes,No,No,purple
+Wilshire-Normandie,34.0618,-118.3002,Yes,No,No,No,No,No,Yes,No,No,purple
+Wilshire-Vermont,34.0626,-118.2917,Yes,No,No,No,No,Yes,Yes,No,No,purplered
+Westlake-MacArthur Park,34.057,-118.2764,Yes,No,No,No,No,Yes,Yes,No,No,purplered
+Metro Center,34.0487,-118.2587,Yes,Yes,Yes,No,No,Yes,Yes,No,No,multi
+Bunker Hill,34.0544,-118.251,Yes,Yes,Yes,No,No,No,No,No,Yes,expoblue
+Broadway,34.0530,-118.2446,Yes,Yes,Yes,No,No,No,No,No,Yes,expoblue
+Pershing Square,34.0493,-118.2516,Yes,No,No,No,No,Yes,Yes,No,No,purplered
+Civic Center,34.0543,-118.2467,Yes,No,No,No,No,Yes,Yes,No,No,purplered
+Union Station,34.05515,-118.23525,Yes,Yes,Yes,Yes,No,Yes,Yes,No,No,multi
+Grand-LATTC,34.033,-118.269,Yes,No,Yes,No,No,No,No,No,No,blue
+San Pedro St,34.0272,-118.2562,Yes,No,Yes,No,No,No,No,No,No,blue
+Washington,34.0204,-118.2431,Yes,No,Yes,No,No,No,No,No,No,blue
+Vernon,34.0037,-118.2432,Yes,No,Yes,No,No,No,No,No,No,blue
+Slauson,33.9881,-118.2433,Yes,No,Yes,No,No,No,No,No,No,blue
+Florence,33.9748,-118.243,Yes,No,Yes,No,No,No,No,No,No,blue
+Firestone,33.9599,-118.2432,No,No,Yes,No,No,No,No,No,No,blue
+103rd St-Watts,33.9427,-118.2432,Yes,No,Yes,No,No,No,No,No,No,blue
+Willowbrook-Rosa Parks,33.9282,-118.238,No,No,Yes,No,Yes,No,No,No,No,bluegreen
+Compton,33.8974,-118.2245,No,No,Yes,No,No,No,No,No,No,blue
+Artesia,33.8766,-118.2227,No,No,Yes,No,No,No,No,No,No,blue
+Del Amo,33.8495,-118.212,No,No,Yes,No,No,No,No,No,No,blue
+Wardlow,33.8206,-118.1962,No,No,Yes,No,No,No,No,No,No,blue
+Willow St,33.8079,-118.1901,No,No,Yes,No,No,No,No,No,No,blue
+PCH,33.7899,-118.1895,No,No,Yes,No,No,No,No,No,No,blue
+Anaheim St,33.7826,-118.1895,No,No,Yes,No,No,No,No,No,No,blue
+5th St,33.7742,-118.1894,No,No,Yes,No,No,No,No,No,No,blue
+1st St,33.7683,-118.1895,No,No,Yes,No,No,No,No,No,No,blue
+Downtown Long Beach,33.7681,-118.1932,No,No,Yes,No,No,No,No,No,No,blue
+Pacific Ave,33.7729,-118.1939,No,No,Yes,No,No,No,No,No,No,blue
+Redondo Beach,33.8947,-118.3693,No,No,No,No,Yes,No,No,No,No,green
+Douglas,33.9052,-118.3832,No,No,No,No,Yes,No,No,No,No,green
+El Segundo,33.916,-118.387,No,No,No,No,Yes,No,No,No,No,green
+Mariposa,33.9235,-118.3875,No,No,No,No,Yes,No,No,No,No,green
+Aviation-LAX,33.9298,-118.3784,Yes,No,No,No,Yes,No,No,Yes,No,greencrenshaw
+Hawthorne-Lennox,33.9335,-118.3526,No,No,No,No,Yes,No,No,No,No,green
+Crenshaw,33.9252,-118.3265,No,No,No,No,Yes,No,No,No,No,green
+Vermont-Athens,33.9287,-118.2918,Yes,No,No,No,Yes,No,No,No,No,green
+Harbor Fwy,33.9287,-118.2808,Yes,No,No,No,Yes,No,No,No,No,green
+Avalon,33.9275,-118.2652,Yes,No,No,No,Yes,No,No,No,No,green
+Long Beach Bl,33.9249,-118.21,No,No,No,No,Yes,No,No,No,No,green
+Lakewood Bl,33.9131,-118.1405,No,No,No,No,Yes,No,No,No,No,green
+Norwalk,33.9139,-118.105,No,No,No,No,Yes,No,No,No,No,green
+Atlantic,34.0334,-118.154,No,No,No,Yes,No,No,No,No,No,gold
+East LA Civic Center,34.0332,-118.1614,No,No,No,Yes,No,No,No,No,No,gold
+Maravilla,34.0331,-118.1684,No,No,No,Yes,No,No,No,No,No,gold
+Indiana,34.0343,-118.1922,Yes,No,No,Yes,No,No,No,No,No,gold
+Soto,34.044,-118.2106,Yes,No,No,Yes,No,No,No,No,No,gold
+Mariachi Plaza,34.0473,-118.2198,Yes,No,No,Yes,No,No,No,No,No,gold
+Pico-Aliso,34.0478,-118.2262,Yes,No,No,Yes,No,No,No,No,No,gold
+Little Tokyo,34.0498,-118.238,Yes,No,No,Yes,No,No,No,No,No,gold
+Chinatown,34.0635,-118.2357,Yes,No,No,Yes,No,No,No,No,No,gold
+Lincoln-Cypress,34.0813,-118.2199,Yes,No,No,Yes,No,No,No,No,No,gold
+Heritage Square,34.0871,-118.2126,Yes,No,No,Yes,No,No,No,No,No,gold
+Southwest Museum,34.0983,-118.2067,Yes,No,No,Yes,No,No,No,No,No,gold
+Highland Park,34.1112,-118.1926,Yes,No,No,Yes,No,No,No,No,No,gold
+South Pasadena,34.1157,-118.1573,No,No,No,Yes,No,No,No,No,No,gold
+Fillmore,34.1331,-118.1482,No,No,No,Yes,No,No,No,No,No,gold
+Del Mar,34.1426,-118.1488,No,No,No,Yes,No,No,No,No,No,gold
+Memorial Park,34.1476,-118.1479,No,No,No,Yes,No,No,No,No,No,gold
+Lake,34.1519,-118.1324,No,No,No,Yes,No,No,No,No,No,gold
+Allen,34.1518,-118.1132,No,No,No,Yes,No,No,No,No,No,gold
+Sierre Madre Villa,34.1478,-118.0813,No,No,No,Yes,No,No,No,No,No,gold
+Arcadia,34.1425,-118.0288,No,No,No,Yes,No,No,No,No,No,gold
+Monrovia,34.1326,-118.0021,No,No,No,Yes,No,No,No,No,No,gold
+Duarte-City of Hope,34.1326,-117.968,No,No,No,Yes,No,No,No,No,No,gold
+Irwindale,34.129,-117.9336,No,No,No,Yes,No,No,No,No,No,gold
+Azusa Downtown,34.1358,-117.906,No,No,No,Yes,No,No,No,No,No,gold
+APU-Citrus College,34.1369,-117.8901,No,No,No,Yes,No,No,No,No,No,gold
+Wilshire-La Brea,34.0625,-118.3444,Yes,No,No,No,No,No,Yes,No,No,purple
+Wilshire-Fairfax,34.0631,-118.3616,Yes,No,No,No,No,No,Yes,No,No,purple
+Wilshire-La Cienega,34.0652,-118.3761,No,No,No,No,No,No,Yes,No,No,purple
