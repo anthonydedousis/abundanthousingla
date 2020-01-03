@@ -1,0 +1,23 @@
+Address,Latitude,Longitude,Accuracy Score,Accuracy Type,Number,Street,City,State,County,Zip,Country,Source
+928 S BROADWAY  LOS ANGELES CA  90015,34.04157,-118.25655,1,rooftop,928,S Broadway,Los Angeles,CA,Los Angeles County,90015,US,City of Los Angeles
+1515 WILSHIRE BLVD  LOS ANGELES CA  90017,34.054977,-118.268799,1,rooftop,1515,Wilshire Blvd,Los Angeles,CA,Los Angeles County,90017,US,Los Angeles County
+10730 VENTURA BLVD  LOS ANGELES CA  91604,34.138373,-118.36536,1,rooftop,10730,Ventura Blvd,Studio City,CA,Los Angeles County,91604,US,Los Angeles County
+2912 W ROWENA AVE  LOS ANGELES CA  90039,34.10817,-118.26851,1,rooftop,2912,W Rowena Ave,Los Angeles,CA,Los Angeles County,90039,US,City of Los Angeles
+1335 TOWER GROVE DR  BEVERLY HILLS CA  90210,34.095545,-118.424561,1,rooftop,1335,Tower Grove Dr,Beverly Hills,CA,Los Angeles County,90210,US,Los Angeles County
+447 N ROBINWOOD DR  LOS ANGELES CA  90049,34.0669,-118.48339,1,rooftop,447,N Robinwood Dr,Los Angeles,CA,Los Angeles County,90049,US,City of Los Angeles
+4450 SHERMAN OAKS CIRCLE  LOS ANGELES CA  91403,34.150896,-118.46909,1,range_interpolation,4450,Sherman Oaks Cir,Sherman Oaks,CA,Los Angeles County,91403,US,TIGER/Line® dataset from the US Census Bureau
+13107 W VICTORY BLVD  LOS ANGELES CA  91401,34.18683,-118.41851,1,rooftop,13107,W Victory Blvd,Van Nuys,CA,Los Angeles County,91401,US,City of Los Angeles
+13105 W VICTORY BLVD  LOS ANGELES CA  91401,34.18683,-118.41844,1,rooftop,13105,W Victory Blvd,Van Nuys,CA,Los Angeles County,91401,US,City of Los Angeles
+4817 CARPENTER AVE  LOS ANGELES CA  91607,34.158234,-118.391182,1,rooftop,4817,Carpenter Ave,Valley Village,CA,Los Angeles County,91607,US,Los Angeles County
+4801 CARPENTER AVE  LOS ANGELES CA  91607,34.157772,-118.391037,0.9,range_interpolation,4801,Carpenter Ave,Valley Village,CA,Los Angeles County,91607,US,TIGER/Line® dataset from the US Census Bureau
+4803 CARPENTER AVE  LOS ANGELES CA  91607,34.15766,-118.391187,0.9,range_interpolation,4803,Carpenter Ave,Valley Village,CA,Los Angeles County,91607,US,TIGER/Line® dataset from the US Census Bureau
+4807 CARPENTER AVE  LOS ANGELES CA  91607,34.157735,-118.391187,0.9,range_interpolation,4807,Carpenter Ave,Valley Village,CA,Los Angeles County,91607,US,TIGER/Line® dataset from the US Census Bureau
+4809 CARPENTER AVE  LOS ANGELES CA  91607,34.157773,-118.391187,0.9,range_interpolation,4809,Carpenter Ave,Valley Village,CA,Los Angeles County,91607,US,TIGER/Line® dataset from the US Census Bureau
+4811 CARPENTER AVE  LOS ANGELES CA  91607,34.15781,-118.391187,0.9,range_interpolation,4811,Carpenter Ave,Valley Village,CA,Los Angeles County,91607,US,TIGER/Line® dataset from the US Census Bureau
+4813 CARPENTER AVE  LOS ANGELES CA  91607,34.157848,-118.391187,0.9,range_interpolation,4813,Carpenter Ave,Valley Village,CA,Los Angeles County,91607,US,TIGER/Line® dataset from the US Census Bureau
+13103 W VICTORY BLVD  LOS ANGELES CA  91401,34.18683,-118.41836,1,rooftop,13103,W Victory Blvd,Van Nuys,CA,Los Angeles County,91401,US,City of Los Angeles
+4805 CARPENTER AVE  LOS ANGELES CA  91607,34.157697,-118.391187,0.9,range_interpolation,4805,Carpenter Ave,Valley Village,CA,Los Angeles County,91607,US,TIGER/Line® dataset from the US Census Bureau
+10575 SELKIRK LANE  LOS ANGELES CA  90077,34.111618,-118.449534,1,rooftop,10575,Selkirk Ln,Los Angeles,CA,Los Angeles County,90077,US,Los Angeles County
+13141 CHANDLER BLVD  SHERMAN OAKS CA  91401,34.168718,-118.419425,1,rooftop,13141,Chandler Blvd,Van Nuys,CA,Los Angeles County,91401,US,Los Angeles County
+441 N ROBINWOOD DR  LOS ANGELES CA  90049,34.06686,-118.48341,1,rooftop,441,N Robinwood Dr,Los Angeles,CA,Los Angeles County,90049,US,City of Los Angeles
+15350 SUTTON ST  LOS ANGELES CA  91403,34.150164,-118.469272,1,rooftop,15350,Sutton St,Sherman Oaks,CA,Los Angeles County,91403,US,Los Angeles County
