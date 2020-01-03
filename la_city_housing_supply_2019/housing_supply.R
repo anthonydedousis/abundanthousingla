@@ -35,7 +35,7 @@ library(rgdal) # use to upload shapefiles
 library(raster) # maybe a different way to upload shapefiles
 library(cowplot) # allows you to plot multiple plots side by side
 library(shades) # lets you make color palettes lighter/darker
-library(tidyr)
+library(tidyr) 
 
 ## import data and set up views we want
 setwd("xxxx") ## replace with your file path
