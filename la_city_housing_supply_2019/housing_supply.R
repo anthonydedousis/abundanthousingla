@@ -38,7 +38,7 @@ library(shades) # lets you make color palettes lighter/darker
 library(tidyr)
 
 ## import data and set up views we want
-setwd("~/Documents/Abundant Housing LA/2001xx - Housing Supply")
+setwd("xxxx") ## replace with your file path
 supply <- read.csv("LA City Parcel Dataset 2019.csv")
 head(supply)
 nrow(supply)
@@ -75,8 +75,8 @@ supply_comm <- subset(supply, (gen_use_type=="Commercial" &
               detail1=="Office and Residential"))
 supply_comm <- subset(supply_comm, units > 0) # delete properties with 0 residential units
 head(supply_comm)
-nrow(supply_comm) #  2,477 - matches count in Excel
-sum(supply_comm$units) # 25,395 - matches count in Excel
+nrow(supply_comm) #  2,477 buildings
+sum(supply_comm$units) # 25,395 units
 
 # create a Residential-only subset
 supply_res <- subset(supply, (gen_use_type=="Residential" & 
@@ -86,8 +86,8 @@ supply_res <- subset(supply_res, (gen_use_type=="Residential" &
                          | (property_type=="SFR" & 
                               !(detail1=="Wireless Communication Tower"))))
 head(supply_res)
-nrow(supply_res) # 697,354 - matches count in Excel
-sum(supply_res$units) # 1,376,298 units - matches count in Excel
+nrow(supply_res) # 697,354 buildings
+sum(supply_res$units) # 1,376,298 units
 sum(supply_res$units) + sum(supply_comm$units) # 1,401,693 units
 
 # combine the Commercial and Residential dataframes
@@ -223,7 +223,7 @@ by_category # excellent, confirms that there are no 0-unit properties in the dat
 
 ## import LA neighborhood boundaries
 file.exists("LA_Times_Neighborhoods.shp")
-neighborhood <- readOGR(dsn = "~/Documents/Abundant Housing LA/2001xx - Housing Supply/LA_Times_Neighborhoods", layer = "LA_Times_Neighborhoods")
+neighborhood <- readOGR(dsn = "xxx", layer = "LA_Times_Neighborhoods") # replace xxx with the file path to the LA_Times_Neighborhoods folder
 head(neighborhood)
 class(neighborhood)
 nh_df <- broom::tidy(neighborhood, region = "name") # turn into a dataframe
@@ -239,7 +239,7 @@ head(nh_names)
 #set_key("AIzaSyDML4DP3Z-675erwTe9cxTg3TD5SYwj7rg", api = "map")
 #set_key("AIzaSyDML4DP3Z-675erwTe9cxTg3TD5SYwj7rg", api = "default")
 #google_keys() # check to see which API keys are active
-register_google(key = "AIzaSyDML4DP3Z-675erwTe9cxTg3TD5SYwj7rg")
+register_google(key = "xxx") ### go get a google API key and replace xxx with it
 
 la_map <- get_map(location = c(lon=-118.35, lat=34.1),  maptype = "roadmap", source = "google", zoom = 11) # map of los angeles
 ggmap(la_map)
