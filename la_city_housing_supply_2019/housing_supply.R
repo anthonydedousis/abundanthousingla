@@ -285,6 +285,372 @@ supply_combined_no_nh <- subset(supply_combined, is.na(neighborhood))
 sum(supply_combined_no_nh$units) # 74 homes don't have a neighborhood, not sure why
 write.csv(supply_combined, "supply_combined.csv") # export
 
+# upload spreadsheet listing LA County neighborhoods by square mileage
+# link: http://maps.latimes.com/neighborhoods/area/square-miles/neighborhood/list/
+square_mileage <- read.csv("LA County Neighborhood Square Mileage.csv")
+square_mileage <- square_mileage[c(2:3)] # drop rank column
+head(square_mileage)
+is.numeric(square_mileage$sq.mi) # TRUE
+
+# create a dataframe that totals homes by neighborhood
+
+supply_by_nh <- supply_combined %>%
+  group_by(neighborhood) %>%
+  summarise(total_homes=sum(units)
+             , homes_after_1998=sum(units[bldg_age<21], na.rm=T)
+             , share_after_1998=homes_after_1998/total_homes
+             , homes_after_1968=sum(units[bldg_age<51], na.rm=T)
+             , share_after_1968=homes_after_1968/total_homes
+             , total_bldgs=n()
+             , avg_bldg_age=weighted.mean(bldg_age, units, na.rm=T)
+             , avg_bldg_size=mean(units)
+             , sf_bldgs=sum(units[units<2])
+             , sf_share=sf_bldgs/total_homes
+             , mf_share=1-sf_share
+             , five_plus_bldgs=sum(units[units>4])
+             , ten_plus_bldgs=sum(units[units>9])
+             , fifty_plus_bldgs=sum(units[units>49])
+             , five_plus_share=five_plus_bldgs/total_homes
+             , ten_plus_share=ten_plus_bldgs/total_homes
+             , fifty_plus_share=fifty_plus_bldgs/total_homes) %>%
+  mutate(share_of_nhood_homes=total_homes/sum(total_homes)) %>%
+  arrange(desc(total_homes))
+nrow(supply_by_nh) # 115 rows
+head(supply_by_nh) 
+tail(supply_by_nh) 
+sum(supply_by_nh$total_homes) # again, should be 1,401,634 homes
+
+# add square mileage to supply_by_nh dataframe
+supply_by_nh <- merge(supply_by_nh, square_mileage, all.x = T, by.x = "neighborhood", by.y = "neighborhood")
+head(supply_by_nh)
+
+# add housing density (homes / sq mi) column to supply_by_nh dataframe
+supply_by_nh$housing_density <- supply_by_nh$total_homes/supply_by_nh$sq.mi
+head(supply_by_nh)
+write.csv(supply_by_nh, "supply_by_nh.csv") # export
+
+## combine neighborhood shapefile with supply_by_nh dataset
+head(nh_df)
+colnames(nh_df)[7] <- "neighborhood"
+combined <- nh_df %>% left_join(supply_by_nh, by = "neighborhood") # join the data frames; left join includes boundaries neighborhoods with zero units
+head(combined)
+
+## heat map of neighborhoods by number of homes
+
+map_total_homes <- ggmap(la_map2) + 
+  geom_polygon(data = combined, aes(x = long, y = lat, group = group, 
+                                    fill = cut(total_homes, c(0,5000,10000,15000,20000,25000,35000,100000), 
+                                               c("<5,000 units", "5,000-9,999 units", 
+                                                 "10,000-14,999 units", "15,000-19,999 units", "20,000-24,999 units",
+                                                 "25,000-34,999 units", "35,000+ units"),
+                                               include.lowest = T, dig.lab=10)), linetype = "21", size = 0.2, color = "black") +
+  scale_fill_brewer(name = "Homes by Neighborhood", palette="YlGnBu", na.value="#D0D3D4") 
+map_total_homes
+
+## heat map of neighborhoods by average building size
+
+map_avg_bldg_size <- ggmap(la_map2) + 
+  geom_polygon(data = combined, aes(x = long, y = lat, group = group, 
+                                    fill = cut(avg_bldg_size, c(0,1.5,2,3,4,5,6,50), 
+                                               c("<1.5 units", "1.5-2 units", "2-3 units", 
+                                                 "3-4 units", "4-5 units", "5-6 units",
+                                                 "6+ units"),
+                                               include.lowest = T, dig.lab=10)), linetype = "21", size = 0.2, color = "black") +
+  scale_fill_brewer(name = "Average Building Size", palette="YlGnBu", na.value="#D0D3D4") 
+map_avg_bldg_size
+
+## heat map of neighborhoods by housing density
+
+map_housing_density <- ggmap(la_map2) + 
+  geom_polygon(data = combined, aes(x = long, y = lat, group = group, 
+                                    fill = cut(housing_density, c(0,1000,2000,3000,5000,7000,9000,11000,15000,100000), 
+                                               c("<1,000 homes / sq mi", "1,000-1,999 homes / sq mi", "2,000-2,999 homes / sq mi", 
+                                                 "3,000-4,999 homes / sq mi", "5,000-6,999 homes / sq mi", "7,000-8,999 homes / sq mi",
+                                                 "9,000-10,999 homes / sq mi", "11,000-14,999 homes / sq mi", "15,000+ homes / sq mi"),
+                                               include.lowest = T, dig.lab=10)), linetype = "21", size = 0.2, color = "black") +
+  scale_fill_brewer(name = "Homes per Square Mile", palette="YlGnBu", na.value="#D0D3D4") 
+map_housing_density
+
+## heat map of neighborhoods by average building age
+
+map_avg_bldg_age <- ggmap(la_map2) + 
+  geom_polygon(data = combined, aes(x = long, y = lat, group = group, 
+                                    fill = cut(avg_bldg_age, c(0,20,50,60,70,80,90,Inf), 
+                                               c("<20 years", "20-50 years", "50-60 years", "60-70 years",
+                                                 "70-80 years", "80-90 years", "90+ years"),
+                                               include.lowest = T, dig.lab=10)), linetype = "21", size = 0.2, color = "black") +
+  scale_fill_brewer(name = "Average Housing Unit Age", palette="RdYlGn", direction=-1, na.value="#D0D3D4") 
+map_avg_bldg_age
+
+## heat map of neighborhoods by number of homes that are <21 years old
+
+map_homes_after_1998 <- ggmap(la_map2) + 
+  geom_polygon(data = combined, aes(x = long, y = lat, group = group, 
+                                    fill = cut(homes_after_1998, c(0,500,1000,2000,3000,4000,14000,100000), 
+                                               c("<500 units", "500-999 units", 
+                                                 "1,000-1,999 units", "2,000-2,999 units", "3,000-3,999 units",
+                                                 "4,000-13,999 units","14,000+ units"),
+                                               include.lowest = T, dig.lab=10)), linetype = "21", size = 0.2, color = "black") +
+  scale_fill_brewer(name = "Homes Built After 1998 by Neighborhood", palette="YlGnBu", na.value="#D0D3D4") 
+map_homes_after_1998
+
+## heat map of neighborhoods by % of homes that are <21 years old
+
+map_share_after_1998 <- ggmap(la_map2) + 
+  geom_polygon(data = combined, aes(x = long, y = lat, group = group, 
+                                    fill = cut(share_after_1998, c(0,0.1,0.2,0.3,0.4,Inf), 
+                                               c("<10%","10-20%","20-30%","30-40%","40%+"),
+                                               include.lowest = T, dig.lab=10)), linetype = "21", size = 0.2, color = "black") +
+  scale_fill_brewer(name = "% of Homes <21 years old", palette="RdYlGn", na.value="#D0D3D4") 
+map_share_after_1998
+
+## heat map of neighborhoods by number of homes that are <51 years old
+
+map_homes_after_1968 <- ggmap(la_map2) + 
+  geom_polygon(data = combined, aes(x = long, y = lat, group = group, 
+                                    fill = cut(homes_after_1968, c(0,1000,2000,3000,5000,7000,10000,15000,100000), 
+                                               c("<1,000 units", 
+                                                 "1,000-1,999 units", "2,000-2,999 units", "3,000-4,999 units",
+                                                 "5,000-6,999 units","7,000-9,999 units","10,000-14,999 units","15,000+ units"),
+                                               include.lowest = T, dig.lab=10)), linetype = "21", size = 0.2, color = "black") +
+  scale_fill_brewer(name = "Homes Built After 1968 by Neighborhood", palette="YlGnBu", na.value="#D0D3D4") 
+map_homes_after_1968
+
+## heat map of neighborhoods by % of homes that are <51 years old
+
+map_share_after_1968 <- ggmap(la_map2) + 
+  geom_polygon(data = combined, aes(x = long, y = lat, group = group, 
+                                    fill = cut(share_after_1968, c(0,0.1,0.2,0.3,0.4,0.5,0.7,Inf), 
+                                               c("<10%","10-20%","20-30%","30-40%","40-50%", "50-70%","70%+"),
+                                               include.lowest = T, dig.lab=10)), linetype = "21", size = 0.2, color = "black") +
+  scale_fill_brewer(name = "% of Homes <51 years old", palette="RdYlGn", na.value="#D0D3D4") 
+map_share_after_1968
+
+## heat map of neighborhoods by % of all homes
+
+map_share <- ggmap(la_map2) + 
+  geom_polygon(data = combined, aes(x = long, y = lat, group = group, 
+                                    fill = cut(share_of_nhood_homes, c(0,0.005,0.01,0.015,0.02,0.025,0.03,0.035), 
+                                               c("< 0.5% of total", "0.5-1.0% of total", "1.0-1.5% of total", 
+                                                 "1.5-2.0% of total", "2.0-2.5% of total", "2.5-3.0% of total",
+                                                 ">3.0% of total"),
+                                               include.lowest = T, dig.lab=10)), linetype = "21", size = 0.2, color = "black") +
+  scale_fill_brewer(name = "Neighborhood's Share of All Homes", palette="YlGnBu", na.value="#D0D3D4") 
+map_share
+
+## heat map of neighborhoods by % of homes that are single family
+
+map_sf_share <- ggmap(la_map2) + 
+  geom_polygon(data = combined, aes(x = long, y = lat, group = group, 
+                                    fill = cut(sf_share, c(0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,Inf), 
+                                               c("<10%", "10-20%", "20-30%","30-40%","40-50%","50-60%",
+                                                 "60-70%","70-80%","80%+"),
+                                               include.lowest = T, dig.lab=10)), linetype = "21", size = 0.2, color = "black") +
+  scale_fill_brewer(name = "% of Residences that are Single-Family", palette="RdYlGn", direction=-1, na.value="#D0D3D4") 
+map_sf_share
+
+## heat map of neighborhoods by % of homes that are multifamily
+
+map_mf_share <- ggmap(la_map2) + 
+  geom_polygon(data = combined, aes(x = long, y = lat, group = group, 
+                                    fill = cut(mf_share, c(0,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,Inf), 
+                                               c("<20%","20-30%","30-40%","40-50%","50-60%",
+                                                 "60-70%","70-80%","80-90%","90%+"),
+                                               include.lowest = T, dig.lab=10)), linetype = "21", size = 0.2, color = "black") +
+  scale_fill_brewer(name = "% of Residences that are Multifamily", palette="RdYlGn", na.value="#D0D3D4") 
+map_mf_share
+
+## heat map of neighborhoods by % of residences that are 5+ units
+
+map_five_plus_share <- ggmap(la_map2) + 
+  geom_polygon(data = combined, aes(x = long, y = lat, group = group, 
+                                    fill = cut(five_plus_share, c(0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,Inf), 
+                                               c("<10%","10-20%","20-30%","30-40%","40-50%","50-60%",
+                                                 "60-70%","70-80%","80%+"),
+                                               include.lowest = T, dig.lab=10)), linetype = "21", size = 0.2, color = "black") +
+  scale_fill_brewer(name = "% of Residences that are 5+ Units", palette="RdYlGn", na.value="#D0D3D4") 
+map_five_plus_share
+
+## heat map of neighborhoods by % of residences that are 10+ units
+
+map_ten_plus_share <- ggmap(la_map2) + 
+  geom_polygon(data = combined, aes(x = long, y = lat, group = group, 
+                                    fill = cut(ten_plus_share, c(0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,Inf), 
+                                               c("<10%","10-20%","20-30%","30-40%","40-50%","50-60%",
+                                                 "60-70%","70-80%","80%+"),
+                                               include.lowest = T, dig.lab=10)), linetype = "21", size = 0.2, color = "black") +
+  scale_fill_brewer(name = "% of Residences that are 10+ Units", palette="RdYlGn", na.value="#D0D3D4") 
+map_ten_plus_share
+
+## heat map of neighborhoods by % of residences that are 50+ units
+
+map_fifty_plus_share <- ggmap(la_map2) + 
+  geom_polygon(data = combined, aes(x = long, y = lat, group = group, 
+                                    fill = cut(fifty_plus_share, c(0,0.1,0.2,0.3,0.4,0.5,Inf), 
+                                               c("<10%","10-20%","20-30%","30-40%","40-50%","50%+"),
+                                               include.lowest = T, dig.lab=10)), linetype = "21", size = 0.2, color = "black") +
+  scale_fill_brewer(name = "% of Residences that are 50+ Units", palette="RdYlGn", na.value="#D0D3D4") 
+map_fifty_plus_share
+
+## import LA CPA boundaries
+
+file.exists("Community_Plan_Areas_CPA.shp")
+cpa <- readOGR(dsn = "~/Documents/Abundant Housing LA/2002xx - Where is LA Growing/Community_Plan_Areas_CPA", layer = "Community_Plan_Areas_CPA")
+head(cpa)
+class(cpa)
+cpa_df <- broom::tidy(cpa, region = "NAME") # turn into a dataframe
+lapply(cpa_df, class)
+head(cpa_df)
+class(cpa_df)
+cpa_names <- aggregate(cbind(long, lat) ~ id, data=cpa_df, FUN=mean) # create dataframe with names of neighborhoods
+head(cpa_names)
+
+## map of CPA boundaries
+
+la_map_cpa <- ggmap(la_map2) + 
+  geom_polygon(data = cpa_df, aes(x = long, y = lat, group = group), fill = NA, linetype = "21", size = 0.2, color = "black") 
+la_map_cpa
+
+# aggregate homes by CPA
+by_cpa <- over(sp, cpa) # creates a dataframe of home coordinates and CPA shapefile
+head(by_cpa)
+colnames(by_cpa)[2] <- "name" # rename column
+by_cpa_summary <- by_cpa %>%
+  group_by(name) %>%
+  summarise(total=n()) # count the number of homes by CPA
+head(by_cpa_summary)
+class(by_cpa_summary)
+sum(by_cpa_summary$total) # should equal 699,772 rows
+
+## combine home coordinates + CPA dataframe to create dataset 
+## with a CPA associated with every project
+
+coords_with_cpa <- cbind(coords, by_cpa$name)
+colnames(coords_with_cpa)[3] <- "cpa" # rename column
+head(coords_with_cpa)
+
+supply_combined <- cbind(supply, coords_with_cpa)
+supply_combined <- supply_combined[-c(20:21)] # drop duplicate lat-long
+head(supply_combined)
+sum(supply_combined$units) # should be 1,401,634 homes
+write.csv(supply_combined, "supply_combined.csv") # export
+
+# create a dataframe that totals homes by CPA
+
+supply_by_cpa <- supply_combined %>%
+  group_by(cpa) %>%
+  summarise(total_homes=sum(units)
+            , homes_after_1998=sum(units[bldg_age<21], na.rm=T)
+            , share_after_1998=homes_after_1998/total_homes
+            , homes_after_1968=sum(units[bldg_age<51], na.rm=T)
+            , share_after_1968=homes_after_1968/total_homes
+            , total_bldgs=n()
+            , avg_bldg_age=weighted.mean(bldg_age, units, na.rm=T)
+            , avg_bldg_size=mean(units)
+            , sf_bldgs=sum(units[units<2])
+            , sf_share=sf_bldgs/total_homes
+            , mf_share=1-sf_share
+            , five_plus_bldgs=sum(units[units>4])
+            , ten_plus_bldgs=sum(units[units>9])
+            , fifty_plus_bldgs=sum(units[units>49])
+            , five_plus_share=five_plus_bldgs/total_homes
+            , ten_plus_share=ten_plus_bldgs/total_homes
+            , fifty_plus_share=fifty_plus_bldgs/total_homes) %>%
+  mutate(share_of_nhood_homes=total_homes/sum(total_homes)) %>%
+  arrange(desc(total_homes))
+nrow(supply_by_cpa) # 115 rows
+head(supply_by_cpa) 
+tail(supply_by_cpa) 
+sum(supply_by_cpa$total_homes) # again, should be 1,401,634 homes
+write.csv(supply_by_cpa, "supply_by_cpa.csv") # export
+
+## combine cpa shapefile with supply_by_cpa dataset
+head(cpa_df)
+colnames(cpa_df)[7] <- "cpa"
+combined_cpa <- cpa_df %>% left_join(supply_by_cpa, by = "cpa") # join the data frames; left join includes boundaries of cpas w/0 units
+head(combined_cpa)
+
+## heat map of cpas by number of units
+
+map_total_homes_cpa <- ggmap(la_map2) + 
+  geom_polygon(data = combined_cpa, aes(x = long, y = lat, group = group, 
+                                    fill = cut(total_homes, c(0,20000,30000,40000,60000,80000,100000,200000), 
+                                               c("<20,000 units", "20,000-29,999 units", 
+                                                 "30,000-39,999 units","40,000-59,999 units","60,000-79,999 units",
+                                                 "80,000-99,999 units", "100,000+ units"),
+                                               include.lowest = T, dig.lab=10)), linetype = "21", size = 0.2, color = "black") +
+  scale_fill_brewer(name = "Homes by CPA", palette="YlGnBu", na.value="#D0D3D4") 
+map_total_homes_cpa
+
+## add overlay of Metro stations
+metrorail <- read.csv("metrorail_with_purple.csv")
+head(metrorail)
+
+map4 <- map_total_homes_cpa + 
+  geom_path(data = subset(metrorail, expo == "Yes"), aes(x = long, y = lat)) +
+  geom_path(data = subset(metrorail, blue == "Yes" & expo == "No" & green == "No"), aes(x = long, y = lat)) +
+  geom_path(data = subset(metrorail, red == "Yes"), aes(x = long, y = lat)) +
+  geom_path(data = subset(metrorail, green == "Yes" & blue == "No"), aes(x = long, y = lat)) +
+  geom_path(data = subset(metrorail, gold == "Yes" & red == "No"), aes(x = long, y = lat)) +
+  geom_line(data = subset(metrorail, purple == "Yes"), aes(x = long, y = lat)) +
+  geom_path(data = subset(metrorail, crenshaw == "Yes"), aes(x = long, y = lat)) +
+  geom_point(data = subset(metrorail, line == "expo"), mapping = aes(x = long, y = lat), size = 2, color = "#00FFFF") + # expo line stations
+  geom_point(data = subset(metrorail, line == "red"), mapping = aes(x = long, y = lat), size = 2, color = "#FF0000") + # red line stations
+  geom_point(data = subset(metrorail, line == "gold"), mapping = aes(x = long, y = lat), size = 2, color = "#DAA520") +  # gold line stations
+  geom_point(data = subset(metrorail, line == "green"), mapping = aes(x = long, y = lat), size = 2, color = "#32CD32") +  # green line stations
+  geom_point(data = subset(metrorail, line == "blue"), mapping = aes(x = long, y = lat), size = 2, color = "#1E90FF") +  # blue line stations
+  geom_point(data = subset(metrorail, line == "purple"), mapping = aes(x = long, y = lat), size = 2, color = "#4B0082") + # purple line stations
+  geom_point(data = subset(metrorail, line == "crenshaw"), mapping = aes(x = long, y = lat), size = 2, color = "#8B4513") + # crenshaw line stations
+  geom_point(data = subset(metrorail, line == "multi"), mapping = aes(x = long, y = lat), size = 2, color = "#696969") + # >2 line transfer stations
+  geom_point(data = subset(metrorail, line == "purplered"), mapping = aes(x = long, y = lat), size = 3, color = "#4B0082") + # purple/red line stations
+  geom_point(data = subset(metrorail, line == "purplered"), mapping = aes(x = long, y = lat), size = 2, color = "#FF0000") +  # purple/red line stations
+  geom_point(data = subset(metrorail, line == "bluegreen"), mapping = aes(x = long, y = lat), size = 3, color = "#32CD32") +  # green/blue line stations
+  geom_point(data = subset(metrorail, line == "bluegreen"), mapping = aes(x = long, y = lat), size = 2, color = "#1E90FF") + # green/blue line stations
+  geom_point(data = subset(metrorail, line == "greencrenshaw"), mapping = aes(x = long, y = lat), size = 3, color = "#8B4513") + # green/crenshaw line stations
+  geom_point(data = subset(metrorail, line == "greencrenshaw"), mapping = aes(x = long, y = lat), size = 2, color = "#32CD32") +  # green/crenshaw line stations
+  geom_point(data = subset(metrorail, line == "expocrenshaw"), mapping = aes(x = long, y = lat), size = 3, color = "#8B4513") + # expo/crenshaw line stations
+  geom_point(data = subset(metrorail, line == "expocrenshaw"), mapping = aes(x = long, y = lat), size = 2, color = "#00FFFF") + # expo/crenshaw line stations
+  geom_point(data = subset(metrorail, line == "expoblue"), mapping = aes(x = long, y = lat), size = 3, color = "#00FFFF") + # expo/blue line stations
+  geom_point(data = subset(metrorail, line == "expoblue"), mapping = aes(x = long, y = lat), size = 2, color = "#1E90FF")   # expo/blue line stations
+map4
+## now add neighborhood boundaries
+
+la_map_nhood <- ggmap(la_map2) + 
+  geom_polygon(data = nh_df, aes(x = long, y = lat, group = group), fill = NA, linetype = "21", size = 0.2, color = "black") 
+la_map_nhood
+
+# aggregate buildings by neighborhood
+coords <- supply[c('long','lat')]
+head(coords)
+nrow(coords)
+coords <- data.frame(coords)
+sp <- SpatialPoints(coords)
+proj4string(sp) <- "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"
+proj4string(sp)
+by_neighborhood <- over(sp, neighborhood) # creates a dataframe of building coordinates and neighborhood shapefile
+
+by_nh_summary <- by_neighborhood %>%
+  group_by(name) %>%
+  summarise(total=n()) # count the number of buildings by neighborhood
+head(by_nh_summary)
+class(by_nh_summary)
+sum(by_nh_summary$total) # should be 699,772 rows
+
+## combine building coordinates + neighborhood dataframe to create dataset 
+## with a neighborhood associated with every building
+
+coords_with_nh <- cbind(coords, by_neighborhood$name)
+colnames(coords_with_nh)[3] <- "neighborhood" # rename column
+head(coords_with_nh)
+
+supply_combined <- cbind(supply, coords_with_nh)
+supply_combined <- supply_combined[-c(20:21)] # drop duplicate lat-long
+head(supply_combined)
+sum(supply_combined$units) # should be 1,401,634 homes
+supply_combined_no_nh <- subset(supply_combined, is.na(neighborhood))
+sum(supply_combined_no_nh$units) # 74 homes don't have a neighborhood, not sure why
+write.csv(supply_combined, "supply_combined.csv") # export
+
 # create a dataframe that totals homes by neighborhood
 
 supply_by_nh <- supply_combined %>%
